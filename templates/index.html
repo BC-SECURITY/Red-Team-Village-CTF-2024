@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
+    <div class="streamed-key" id="streamed-key"></div>
     <div class="container">
         <h1>UNSC Communication System</h1>
         <p class="warning">WARNING: Unauthorized Access Detected!</p>
@@ -16,7 +17,24 @@
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required>
             <button type="submit">Login</button>
+         <!--
+        <form method="GET" action="/forgot_password">
+            <button type="submit">Forgot Password?</button>
+        </form>
+        -->
         </form>
     </div>
+    <script>
+        if (typeof(EventSource) !== "undefined") {
+            var source = new EventSource("{{ url_for('stream_key') }}");
+            source.onmessage = function(event) {
+                var span = document.createElement("span");
+                span.textContent = event.data;
+                document.getElementById("streamed-key").appendChild(span);
+            };
+        } else {
+            document.getElementById("streamed-key").innerHTML = "Sorry, your browser does not support server-sent events...";
+        }
+    </script>
 </body>
 </html>

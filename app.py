@@ -1,13 +1,16 @@
-from flask import Flask, request, render_template, redirect, url_for, session
+from flask import Flask, request, render_template, redirect, url_for, session, Response
 import base64
+import random
+import string
+import time
 
 app = Flask(__name__)
 app.secret_key = 'super_secret_key'
+key = 'Covenant#1'
 
 # Mock database
 users = {
-    'admin': 'password',
-    'user1': 'pass123'
+    'spartan': 'cortana123',
 }
 
 # Encryption functions
@@ -26,13 +29,12 @@ def decrypt_message(encrypted_message, key):
 encrypted_messages = [
     {
         'id': 1,
-        'content': encrypt_message('flag{something something}', 'covenant')
+        'content': encrypt_message('flag{something something}', key)
     },
     {
         'id': 2,
-        'content': encrypt_message('WARNING: Covenant Infiltration Detected!', 'covenant')
+        'content': encrypt_message('WARNING: Covenant Infiltration Detected!', key)
     }
-    # Add more encrypted messages here if needed
 ]
 
 # Mock function to simulate a database query
@@ -72,6 +74,25 @@ def logout():
 @app.route('/key-hint')
 def key_hint():
     return render_template('key_hint.html')
+
+@app.route('/forgot_password')
+def corrupted_endpoint():
+    hint = "Hint: Username is 'spartan' and the password is related to the Master Chief's AI companion."
+    corrupted_hint = ''.join(random.choice((str.upper, str.lower))(char) if char.isalpha() else char for char in hint)
+    # Add random characters and noise
+    noise = ''.join(random.choices('!@#$%^&*()_+[]{}|;:,.<>?', k=len(hint) // 2))
+    corrupted_with_noise = ''.join(c + random.choice(noise) if random.random() > 0.5 else c for c in corrupted_hint)
+    return render_template('forgot-password.html', hint=corrupted_with_noise)
+
+@app.route('/api/stream_key')
+def stream_key():
+    def generate():
+        characters = string.ascii_letters + string.digits + string.punctuation
+        while True:
+            char = random.choice(characters)
+            yield f"data: {char}\n\n"
+            time.sleep(0.05)  # Adjust the sleep time as needed for the effect
+    return Response(generate(), mimetype='text/event-stream')
 
 if __name__ == '__main__':
     app.run(debug=False, host='0.0.0.0', port=80)

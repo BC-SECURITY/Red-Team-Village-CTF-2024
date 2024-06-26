@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UNSC Communication System - Login Failed</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>UNSC Communication System</h1>
+        <p class="error">Login Failed: Incorrect username or password.</p>
+        <a href="{{ url_for('index') }}">Back to Login</a>
+    </div>
+</body>
+</html>

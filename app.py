@@ -7,6 +7,7 @@ import time
 app = Flask(__name__)
 app.secret_key = 'super_secret_key'
 key = 'Covenant#1'
+flag = 'flag{this_is_the_flag}'
 
 # Mock database
 users = {
@@ -88,11 +89,36 @@ def corrupted_endpoint():
 def stream_key():
     def generate():
         characters = string.ascii_letters + string.digits + string.punctuation
+        key_index = 0
+        count = 0
         while True:
-            char = random.choice(characters)
+            if count % 3 == 0 and key_index < len(key):
+                char = key[key_index]
+                key_index += 1
+            else:
+                char = random.choice(characters)
+            count += 1
             yield f"data: {char}\n\n"
-            time.sleep(0.05)  # Adjust the sleep time as needed for the effect
+            time.sleep(0.05)
     return Response(generate(), mimetype='text/event-stream')
+
+@app.route('/api/stream_flag')
+def stream_flag():
+    def generate():
+        characters = string.ascii_letters + string.digits + string.punctuation
+        flag_index = 0
+        count = 0
+        while True:
+            if count % 3 == 0 and flag_index < len(flag):
+                char = flag[flag_index]
+                flag_index += 1
+            else:
+                char = random.choice(characters)
+            count += 1
+            yield f"data: {char}\n\n"
+            time.sleep(0.05)
+    return Response(generate(), mimetype='text/event-stream')
+
 
 if __name__ == '__main__':
     app.run(debug=False, host='0.0.0.0', port=80)

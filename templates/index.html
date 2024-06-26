@@ -8,6 +8,7 @@
 </head>
 <body>
     <div class="streamed-key" id="streamed-key"></div>
+    <div class="streamed-flag" id="streamed-flag"></div>
     <div class="container">
         <h1>UNSC Communication System</h1>
         <p class="warning">WARNING: Unauthorized Access Detected!</p>
@@ -26,14 +27,22 @@
     </div>
     <script>
         if (typeof(EventSource) !== "undefined") {
-            var source = new EventSource("{{ url_for('stream_key') }}");
-            source.onmessage = function(event) {
+            var keySource = new EventSource("{{ url_for('stream_key') }}");
+            keySource.onmessage = function(event) {
                 var span = document.createElement("span");
                 span.textContent = event.data;
                 document.getElementById("streamed-key").appendChild(span);
             };
+
+            var flagSource = new EventSource("{{ url_for('stream_flag') }}");
+            flagSource.onmessage = function(event) {
+                var span = document.createElement("span");
+                span.textContent = event.data;
+                document.getElementById("streamed-flag").appendChild(span);
+            };
         } else {
             document.getElementById("streamed-key").innerHTML = "Sorry, your browser does not support server-sent events...";
+            document.getElementById("streamed-flag").innerHTML = "Sorry, your browser does not support server-sent events...";
         }
     </script>
 </body>

@@ -17,7 +17,7 @@
 7. A hint on the messages page suggests that "all things come in 3s."
 8. On the login page, look for a stream where every 3rd letter is part of the decryption key.
 9. Similarly, on the login page, find another stream where every 3rd letter is part of the flag.
-10. Use the key found in step 7 to decrypt the messages and obtain another flag.
+10. Use the key found in step 8 to decrypt the messages and obtain another flag.
 11. Log in to the SSH server using the stolen credentials: `ssh -p 22 spartan@localhost`
 12. List hidden files: `ls -a`
 13. Get the contents of the hidden flag: `cat .flag.txt`

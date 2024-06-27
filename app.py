@@ -7,7 +7,7 @@ import time
 app = Flask(__name__)
 app.secret_key = 'super_secret_key'
 key = 'Covenant#1'
-flag = 'flag{this_is_the_flag}'
+flag = 'flag{c533655a69aebaecd2340d54fe599682}'
 
 # Mock database
 users = {
@@ -30,7 +30,7 @@ def decrypt_message(encrypted_message, key):
 encrypted_messages = [
     {
         'id': 1,
-        'content': encrypt_message('flag{something something}', key)
+        'content': encrypt_message('flag{babc9b8b4405d67cf28d58fe56ef96ccg}', key)
     },
     {
         'id': 2,

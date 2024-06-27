@@ -6,14 +6,34 @@ WORKDIR /app
 # Copy the Flask app code into the container
 COPY . /app
 
+# Copy the setup script
+COPY setup_disk_image.sh /usr/local/bin/setup_disk_image.sh
+RUN chmod +x /usr/local/bin/setup_disk_image.sh
+
 # Install Flask
 RUN pip install flask
 
-# Install necessary packages for SSH masquerading
+# Install necessary packages for SSH server, building sshttp, and disk mounting
 RUN apt-get update && apt-get install -y \
     openssh-server \
-    sshttp \
+    git \
+    gcc \
+    g++ \
+    make \
+    libcap-ng0 \
+    libcap-ng-dev \
+    libcap-dev \
+    e2fsprogs \
+    conntrack \
     && rm -rf /var/lib/apt/lists/*
+
+# Build and install sshttp from source
+RUN git clone https://github.com/stealth/sshttp.git && \
+    cd sshttp/src && \
+    make && \
+    cp sshttpd /usr/local/bin/sshttpd && \
+    cd ../.. && \
+    rm -rf sshttp
 
 # Create SSH directory
 RUN mkdir /var/run/sshd
@@ -30,12 +50,12 @@ RUN echo "PasswordAuthentication yes" >> /etc/ssh/sshd_config
 RUN useradd -ms /bin/bash spartan
 RUN echo 'spartan:cortana123' | chpasswd
 
-# Set up sshttp to masquerade the SSH server
-RUN sshttp --ssh=22 --http=80 --listen=0.0.0.0 --sslport=443 &
+# Create a flag file
+RUN echo "flag{bf9a8f4e145af53efb74c079327d90a5}" > /home/spartan/.flag.txt
 
 # Expose ports for SSH and Flask
 EXPOSE 22
 EXPOSE 80
 
-# Command to run both SSHD and Flask
-CMD service ssh start && python /app/app.py
+# Command to run both SSHD, sshttp, and Flask
+CMD service ssh start && /usr/local/bin/setup_disk_image.sh && sshttpd -S 22 -H 80 -L 0.0.0.0:8080 && python /app/app.py

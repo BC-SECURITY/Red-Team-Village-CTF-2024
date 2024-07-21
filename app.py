@@ -11,7 +11,7 @@ flag = 'flag{c533655a69aebaecd2340d54fe599682}'
 
 # Mock database
 users = {
-    'spartan': 'cortana123',
+    'spartan': 'cortana',
 }
 
 # Encryption functions

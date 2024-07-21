@@ -48,14 +48,23 @@ RUN echo "PasswordAuthentication yes" >> /etc/ssh/sshd_config
 
 # Add a test user
 RUN useradd -ms /bin/bash spartan
-RUN echo 'spartan:cortana123' | chpasswd
+RUN echo 'spartan:cortana' | chpasswd
 
 # Create a flag file
 RUN echo "flag{bf9a8f4e145af53efb74c079327d90a5}" > /home/spartan/.flag.txt
+
+#Compile python into bytecode
+RUN python -m compileall -b /app && \
+    ls -la /app
+
+#Delete files containg flags and instructions
+RUN rm /app/README.md
+RUN rm /app/app.py
 
 # Expose ports for SSH and Flask
 EXPOSE 22
 EXPOSE 80
 
+
 # Command to run both SSHD, sshttp, and Flask
-CMD service ssh start && /usr/local/bin/setup_disk_image.sh && sshttpd -S 22 -H 80 -L 0.0.0.0:8080 && python /app/app.py
+CMD service ssh start && /usr/local/bin/setup_disk_image.sh && sshttpd -S 22 -H 80 -L 0.0.0.0:8080 && python -B /app/app.pyc

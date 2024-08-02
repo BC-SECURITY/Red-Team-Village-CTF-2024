@@ -1,0 +1,31 @@
+# Required sections
+name: "UNSC Communication :: 001"
+author: "BC-Security"
+category: "UNSC Communication"
+description: |
+    The UNSC has been working on a new communication system to help keep their data secure.
+    
+    They have a weird stream of data on the main page, can you find the flag?
+
+    Challenge Courtesy of <a href="https://github.com/BC-SECURITY" target="_blank">BC-Security!</a>
+value: 20
+type: standard
+
+challenge_type: "container"
+
+service_type: "http"
+
+service_name: "bcsec-rtv-24"
+
+attempts: 0
+flags:
+    - {
+        type: "static",
+        content: "flag{c533655a69aebaecd2340d54fe599682}",
+        data: "case_insensitive",
+      }
+
+tags:
+    - web
+state: hidden
+version: "0.1"

@@ -1,0 +1,29 @@
+# Required sections
+name: "UNSC Communication :: 003"
+author: "BC-Security"
+category: "UNSC Communication"
+description: |
+    Find the last flag in the system.
+
+    Challenge Courtesy of <a href="https://github.com/BC-SECURITY" target="_blank">BC-Security!</a>
+value: 15
+type: standard
+
+challenge_type: "container"
+
+service_type: "http"
+
+service_name: "bcsec-rtv-24"
+
+attempts: 0
+flags:
+    - {
+        type: "static",
+        content: "flag{5007e994724962398cb5634b8bbbdbf2}",
+        data: "case_insensitive",
+      }
+
+tags:
+    - web
+state: hidden
+version: "0.1"

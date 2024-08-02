@@ -13,4 +13,5 @@ echo "flag{5007e994724962398cb5634b8bbbdbf2}" > /tmp/fs/hidden_flag.txt
 virt-make-fs --type=ext4 /tmp/fs /home/spartan/disk.img
 
 # Clean up
-rm -r /tmp/fs
+rm -rf /tmp/fs
+rm -rf /usr/local/bin/setup_disk_image.sh

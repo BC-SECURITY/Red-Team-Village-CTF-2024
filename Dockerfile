@@ -25,6 +25,7 @@ RUN apt-get update && apt-get install -y \
     libcap-dev \
     e2fsprogs \
     conntrack \
+    qemu-utils libguestfs-tools \
     && rm -rf /var/lib/apt/lists/*
 
 # Build and install sshttp from source

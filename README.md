@@ -5,7 +5,7 @@
 `docker build --no-cache -t bcsec-rtv-24 .`
 
 3. Run the Docker Container:
-`docker run -d -p 8080:8080 -p 80:80 -p 22:22 --restart=always --privileged bcsec-rtv-24`
+`docker run -d -p 8080:8080 -p 80:80 -p 22:22 --restart=unless-stopped bcsec-rtv-24`
 
 ## Walkthrough
 1. Open your web browser and go to http://localhost.

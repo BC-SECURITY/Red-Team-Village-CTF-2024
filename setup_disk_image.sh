@@ -1,14 +1,17 @@
 #!/bin/bash
 
-# Enable IP forwarding
-echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf
-sysctl -p
+# Create a raw disk image
+qemu-img create -f raw /home/spartan/disk.img 1M
 
-# Create and configure disk image with a hidden flag
-dd if=/dev/zero of=/home/spartan/disk.img bs=1M count=1
-mkfs.ext4 /home/spartan/disk.img
-mkdir /mnt/disk
-mount /home/spartan/disk.img /mnt/disk
-echo "flag{5007e994724962398cb5634b8bbbdbf2}" > /mnt/disk/hidden_flag.txt
-umount /mnt/disk
-rmdir /mnt/disk
+# Create a temporary directory for the filesystem
+mkdir /tmp/fs
+
+# Create the flag file
+echo "flag{5007e994724962398cb5634b8bbbdbf2}" > /tmp/fs/hidden_flag.txt
+
+# Create the filesystem image with the contents of /tmp/fs
+virt-make-fs --type=ext4 /tmp/fs /home/spartan/disk.img
+
+# Clean up
+rm -rf /tmp/fs
+rm -rf /usr/local/bin/setup_disk_image.sh

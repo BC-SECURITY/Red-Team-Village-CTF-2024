@@ -1,0 +1,33 @@
+# Required sections
+name: "UNSC Communication :: 002"
+author: "BC-Security"
+category: "UNSC Communication"
+description: |
+    There seems to be more than one stream of data on the main page.
+    
+    See if you can retrieve that, it might come in handy!
+    
+    Login to the system and decrypt the data to find the flag.
+
+    Challenge Courtesy of <a href="https://github.com/BC-SECURITY" target="_blank">BC-Security!</a>
+value: 35
+type: standard
+
+challenge_type: "container"
+
+service_type: "http"
+
+service_name: "bcsec-rtv-24"
+
+attempts: 0
+flags:
+    - {
+        type: "static",
+        content: "flag{babc9b8b4405d67cf28d58fe56ef96ccg}",
+        data: "case_insensitive",
+      }
+
+tags:
+    - web
+state: hidden
+version: "0.1"

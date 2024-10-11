@@ -1,0 +1,31 @@
+# Required sections
+name: "UNSC Communication :: 003"
+author: "BC-Security"
+category: "UNSC Communication"
+description: |
+    The host is multiplexing HTTP and SSH on the same port.
+    
+    Can you ssh into the system and find the flag?
+
+    Challenge Courtesy of <a href="https://github.com/BC-SECURITY" target="_blank">BC-Security!</a>
+value: 15
+type: standard
+
+challenge_type: "container"
+
+service_type: "http"
+
+service_name: "bcsec-rtv-24"
+
+attempts: 0
+flags:
+    - {
+        type: "static",
+        content: "flag{bf9a8f4e145af53efb74c079327d90a5}",
+        data: "case_insensitive",
+      }
+
+tags:
+    - web
+state: hidden
+version: "0.1"
